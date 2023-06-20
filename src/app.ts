@@ -1,10 +1,16 @@
-import express from 'express';
-import dotenv from 'dotenv';
+import express from "express";
+import dotenv from "dotenv";
+import authRoutes from "./routes/authRoutes";
+import authMiddleware from "./middlewares/authMiddleware";
 
 dotenv.config();
 
 const app = express();
-const port = process.env.APP_PORT || 3000;
+const port = process.env.PORT || "3000";
+
+/* Auth */
+app.use("/auth", authRoutes);
+app.use(authMiddleware);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
