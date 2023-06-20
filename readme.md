@@ -9,3 +9,8 @@ cp .env.example .env # Copy .env.example to .env and edit it
 ```bash
 docker-compose up -d # Start docker containers
 ```
+
+# Conventional Commits
+```bash
+git commit -m "<Type>[scope]: <description>"
+```
