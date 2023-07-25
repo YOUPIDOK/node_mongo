@@ -1,5 +1,4 @@
 import { Model, Document } from 'mongoose';
-import { QueryResult } from '../../paginate/paginate';
 import { INutrition } from '@/modules/nutrition/nutrition.interfaces';
 
 export interface IIngredient {
@@ -9,9 +8,7 @@ export interface IIngredient {
 
 export interface IIngredientDoc extends IIngredient, Document {}
 
-export interface IIngredientModel extends Model<IIngredientDoc> {
-  paginate(filter: Record<string, any>, options: Record<string, any>): Promise<QueryResult>;
-}
+export interface IIngredientModel extends Model<IIngredientDoc> {}
 
 export type CreateIngredientBody = IIngredient;
 export type UpdateIngredientBody = Partial<IIngredient>;

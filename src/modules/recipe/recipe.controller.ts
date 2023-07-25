@@ -3,8 +3,6 @@ import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import catchAsync from '../utils/catchAsync';
 import ApiError from '../errors/ApiError';
-import pick from '../utils/pick';
-import { IOptions } from '../paginate/paginate';
 import * as recipeService from './recipe.service';
 
 export const createRecipe = catchAsync(async (req: Request, res: Response) => {
@@ -13,9 +11,7 @@ export const createRecipe = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const getRecipes = catchAsync(async (req: Request, res: Response) => {
-  const filter = pick(req.query, ['name']);
-  const options: IOptions = pick(req.query, ['sortBy', 'limit', 'page', 'projectBy']);
-  const result = await recipeService.queryRecipes(filter, options);
+  const result = await recipeService.findRecipes();
   res.send(result);
 });
 

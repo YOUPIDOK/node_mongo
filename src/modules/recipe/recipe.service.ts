@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 import { Request } from 'express';
 import Recipe from './recipe.model';
 import ApiError from '../errors/ApiError';
-import { IOptions, QueryResult } from '../paginate/paginate';
 import { CreateRecipeBody, UpdateRecipeBody, IRecipeDoc } from './recipe.interfaces';
 import { getRandomInt } from '../utils/randInt';
 import { Nutrition } from '../nutrition';
@@ -23,8 +22,8 @@ export const createRecipe = async (recipeBody: CreateRecipeBody): Promise<IRecip
  * @param {Object} options - Query options
  * @returns {Promise<QueryResult>}
  */
-export const queryRecipes = async (filter: Record<string, any>, options: IOptions): Promise<QueryResult> => {
-  const recipes = await Recipe.paginate(filter, options);
+export const findRecipes = async (): Promise<IRecipeDoc[]> => {
+  const recipes = await Recipe.find();
   return recipes;
 };
 

@@ -1,5 +1,4 @@
 import { Model, Document } from 'mongoose';
-import { QueryResult } from '../paginate/paginate';
 import { IIngredient } from './ingredient/ingredient.interfaces';
 import { IStepModel } from './step/step.interfaces';
 
@@ -16,9 +15,7 @@ export interface IRecipe {
 
 export interface IRecipeDoc extends IRecipe, Document {}
 
-export interface IRecipeModel extends Model<IRecipeDoc> {
-  paginate(filter: Record<string, any>, options: Record<string, any>): Promise<QueryResult>;
-}
+export interface IRecipeModel extends Model<IRecipeDoc> {}
 
 export type CreateRecipeBody = Omit<IRecipe, 'total_kcal'>;
 export type UpdateRecipeBody = Partial<Omit<IRecipe, 'total_kcal'>>;

@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import toJSON from '../toJSON/toJSON';
-import paginate from '../paginate/paginate';
 import { IRecipeDoc, IRecipeModel } from './recipe.interfaces';
 import { ingredientSchema } from './ingredient/ingredient.model';
 import { stepSchema } from './step/step.model';
@@ -51,7 +50,6 @@ recipeSchema.virtual('total_kcal').get(function () {
 
 // add plugin that converts mongoose to json
 recipeSchema.plugin(toJSON);
-recipeSchema.plugin(paginate);
 
 const Recipe = mongoose.model<IRecipeDoc, IRecipeModel>('Recipe', recipeSchema);
 
