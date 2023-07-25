@@ -10,7 +10,7 @@ export const createUser = catchAsync(async (req: Request, res: Response) => {
   res.status(httpStatus.CREATED).send(user);
 });
 
-export const getUsers = catchAsync(async (req: Request, res: Response) => {
+export const getUsers = catchAsync(async (_: Request, res: Response) => {
   const result = await userService.findUsers();
   res.send(result);
 });
