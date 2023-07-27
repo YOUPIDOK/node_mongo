@@ -1,26 +1,26 @@
 # Node - Mongo
-## Étudiant
+> API node permetant de se connecter pour gérer des recettes de cuisine
+## Étudiants
 - Nathan PONCET
 - Léo STEVENOT
-## Fonctionnalités
-- [x] Authentification
 
 ## Technologies
-- Node ^16.20.0 | important d'utiliser la version 16.20.0
+- Node ^16.20.0 
+- MongoDB
 - Mongoose
-- Mogodb
 - Express
 - Docker
-  - App
-  - Mongodb
+  - Server
+  - MongoDB
+- TypeScript
 
 ## Installation
-Installation des dépendances:
+Installation des dépendances :
 ```bash
 yarn install
 ```
 
-Variables d'environment
+Configuration des variables d'environments
 ```bash
 cp .env.example .env
 ```
@@ -30,12 +30,18 @@ cp .env.example .env
 ```bash
 yarn dev
 ```
-
+Ou avec docker
+```sheel
+yarn docker:dev
+```
 ### Production
 ```bash
 yarn start
 ```
-
+Ou avec docker
+```sheel
+yarn docker:prod
+```
 ### Compilation .ts vers .js
 ```bash
 yarn compile
@@ -44,30 +50,6 @@ yarn compile
 ### Compilation .ts vers .js en mode Watch
 ```bash
 yarn compile:watch
-```
-
-### Docker:
-```bash
-# Développement
-yarn docker:dev
-
-# Production
-yarn docker:prod
-```
-
-### Linting:
-```bash
-# ESLint
-yarn lint
-
-# Erreurs ESLint
-yarn lint:fix
-
-# Prettier
-yarn prettier
-
-# Prettier erreurs
-yarn prettier:fix
 ```
 
 ### Fixtures
@@ -80,8 +62,8 @@ yarn seed
 yarn create:user
 ```
 
-## Fonctionalités
-### Authentication
+## API
+### Authentification
 - register
 - login
 - logout
@@ -89,31 +71,33 @@ yarn create:user
 - forgotPassword
 - resetPassword
 
-### Authorization
-- Verif Role
-- Verif user is owner of resource to update or delete
+### Sécurité
+- Authentification à l'API par JWT token, renouvlable avec refresh token
+  - Token : valide 30 minutes (configurable dans le .env)
+  - Refresh token : valide 30 jours (configurable dans le .env)
+- Verification des Roles [user, admin]
+- Vérification des dépendances des objets, est ce qu'un utilisateur a le droit de modifier ou supprimer
 
 ### CRUD
 - CRUD User
 - CRUD Recipe
 - CRUD Nutrition
-- Get Random Recipe
+- Générer un recette aléatoire
 
 ### Vérification de données
 - Joi / utilisation de validateur pour chaque endpoint
 
-### Documentation
-- docs (swagger) (http://localhost:3000/v1/docs) - Seulement en mode développement
-  [![name](../documentation/Capture%20d%E2%80%99%C3%A9cran%202023-07-12%20%C3%A0%2015.58.05.png)]
-
 ### Message d'erreur
-#### Exemple
+Structure d'un message d'erreur
 ```json
 {
   "code": 404,
   "message": "Not found"
 }
 ```
+
+### Documentation des routes
+Lien [Swagger](http://localhost:3000/v1/docs) - Seulement en mode développement
 
 ### Logger
 ```javascript
@@ -132,12 +116,8 @@ logger.debug('message'); // Niveau 5
 src
 ├── config
 ├── db
+|   ├── seeder
 ├── modules
 |   ├── *
-|   |   ├── controller
-|   |   ├── model
-|   |   ├── router
-|   |   ├── service
-|   |   └── validation
-├── routes
+├── routes        
 ```
