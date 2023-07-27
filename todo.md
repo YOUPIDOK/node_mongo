@@ -1,5 +1,4 @@
 - [ ] Complex functions
 - [ ] Refactor readme
 - [ ] Update swagger with new route
-- [ ] Test API routes
-- [ ] Test installation
+- [ ] tEST ENDPOINT
