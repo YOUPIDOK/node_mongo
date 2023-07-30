@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import { Request } from 'express';
 import Recipe from './recipe.model';
 import ApiError from '../errors/ApiError';
-import { CreateRecipeBody, UpdateRecipeBody, IRecipeDoc } from './recipe.interfaces';
+import { CreateRecipeBody, UpdateRecipeBody, IRecipeDoc, QueryRecipeBody } from './recipe.interfaces';
 import { getRandomInt } from '../utils/randInt';
 import { Nutrition } from '../nutrition';
 
@@ -18,12 +18,11 @@ export const createRecipe = async (recipeBody: CreateRecipeBody): Promise<IRecip
 
 /**
  * Query for recipes
- * @param {Object} filter - Mongo filter
- * @param {Object} options - Query options
+ * @param {QueryRecipeBody} filters - Mongo filter
  * @returns {Promise<QueryResult>}
  */
-export const findRecipes = async (): Promise<IRecipeDoc[]> => {
-  const recipes = await Recipe.find();
+export const findRecipes = async (filters: QueryRecipeBody): Promise<IRecipeDoc[]> => {
+  const recipes = await Recipe.find(filters);
   return recipes;
 };
 
@@ -40,27 +39,31 @@ export const getRecipeById = async (id: mongoose.Types.ObjectId): Promise<IRecip
  */
 export const getRandomRecipe = async (): Promise<IRecipeDoc | null> => {
   const ingredients = await Promise.all(
-    Array(getRandomInt(1, 10)).fill(null).map(async () => {
-      const count = await Nutrition.count().exec();
-      var random = Math.floor(Math.random() * count);
-      const nutrition = await Nutrition.findOne().skip(random).exec();
-      if (!nutrition) {
-        throw new ApiError(httpStatus.NOT_FOUND, 'Nutrition not found');
-      }
-      return {
-        nutrition,
-        quantity: getRandomInt(1, 1000),
-      };
-    })
+    Array(getRandomInt(1, 10))
+      .fill(null)
+      .map(async () => {
+        const count = await Nutrition.count().exec();
+        var random = Math.floor(Math.random() * count);
+        const nutrition = await Nutrition.findOne().skip(random).exec();
+        if (!nutrition) {
+          throw new ApiError(httpStatus.NOT_FOUND, 'Nutrition not found');
+        }
+        return {
+          nutrition,
+          quantity: getRandomInt(1, 1000),
+        };
+      }),
   );
 
   const steps = await Promise.all(
-    Array(getRandomInt(1, 10)).fill(null).map(async (_, i) => {
-      return {
-        title: `Etape ${i}`,
-        description: `Description de l'étape ${i}`,
-      };
-    })
+    Array(getRandomInt(1, 10))
+      .fill(null)
+      .map(async (_, i) => {
+        return {
+          title: `Etape ${i}`,
+          description: `Description de l'étape ${i}`,
+        };
+      }),
   );
 
   const recipe = new Recipe({
@@ -80,11 +83,7 @@ export const getRandomRecipe = async (): Promise<IRecipeDoc | null> => {
  * @param {UpdateRecipeBody} updateBody
  * @returns {Promise<IRecipeDoc | null>}
  */
-export const updateRecipeById = async (
-  req: Request,
-  recipeId: mongoose.Types.ObjectId,
-  updateBody: UpdateRecipeBody
-): Promise<IRecipeDoc | null> => {
+export const updateRecipeById = async (req: Request, recipeId: mongoose.Types.ObjectId, updateBody: UpdateRecipeBody): Promise<IRecipeDoc | null> => {
   const recipe = await getRecipeById(recipeId);
   if (!recipe) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Recipe not found');

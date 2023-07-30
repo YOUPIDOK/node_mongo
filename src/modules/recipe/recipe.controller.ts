@@ -10,8 +10,8 @@ export const createRecipe = catchAsync(async (req: Request, res: Response) => {
   res.status(httpStatus.CREATED).send(recipe);
 });
 
-export const getRecipes = catchAsync(async (_: Request, res: Response) => {
-  const result = await recipeService.findRecipes();
+export const getRecipes = catchAsync(async (req: Request, res: Response) => {
+  const result = await recipeService.findRecipes(req.body);
   res.send(result);
 });
 

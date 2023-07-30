@@ -17,5 +17,6 @@ export interface IRecipeDoc extends IRecipe, Document {}
 
 export interface IRecipeModel extends Model<IRecipeDoc> {}
 
+export type QueryRecipeBody = Object;
 export type CreateRecipeBody = Omit<IRecipe, 'total_kcal'>;
 export type UpdateRecipeBody = Partial<Omit<IRecipe, 'total_kcal'>>;
