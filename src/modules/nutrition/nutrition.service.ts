@@ -3,8 +3,7 @@ import { INutritionDoc } from './nutrition.interfaces';
 
 /**
  * Query for nutritions
- * @param {Object} filter - Mongo filter
- * @param {Object} options - Query options
+ * @param {string} search
  * @returns {Promise<INutritionDoc[] | null>}
  */
 export const queryNutritions = async (search: string): Promise<INutritionDoc[] | null> => {
